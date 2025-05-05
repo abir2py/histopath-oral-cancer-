@@ -33,15 +33,12 @@ def predict_image(image, model):
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # Normalize the image
     ])
     
-    # Preprocess image
-    input_tensor = transform(image).unsqueeze(0)  # Add a batch dimension
+    input_tensor = transform(image).unsqueeze(0).to(torch.device('cpu'))  # force tensor to CPU
 
     with torch.no_grad():
         output = model(input_tensor)
-        prob_class_1 = output.item()  # Probability for class 1 (OSCC)
-        prob_class_0 = 1 - prob_class_1  # Probability for class 0 (leukoplakia)
-        
-        # Determine the predicted class
+        prob_class_1 = output.item()
+        prob_class_0 = 1 - prob_class_1
         predicted_class = 'OSCC' if prob_class_1 > 0.5 else 'Leukoplakia'
     
     return predicted_class, prob_class_0, prob_class_1
