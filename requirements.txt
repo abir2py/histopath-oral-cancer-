@@ -1,8 +1,6 @@
 streamlit
-tensorflow
-keras
-pillow
-numpy
 torch==2.1.0+cpu
 torchvision==0.16.0+cpu
+Pillow
+numpy
 --index-url https://download.pytorch.org/whl/cpu
